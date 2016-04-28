@@ -25,9 +25,7 @@ export default class VideoOverlay {
 		this.createOverlayElement();
 		document.body.appendChild(this.overlay);
 
-		this.videoElement._events.time[0].context.on('time', (timeObj) => {
-			this.currentTimePercentage = timeObj.position / timeObj.duration;
-		});
+		this.setUpChangeListener();
 	}
 	show() {
 		this.isRendering = true;

@@ -1,4 +1,4 @@
-import VideoOverlay from './VideoOverlay/VideoOverlay';
+import VideoOverlayRUV from './VideoOverlay/VideoOverlayRUV';
 
 import getPositionAndSize from './utils/getPositionAndSize';
 
@@ -13,8 +13,19 @@ const mockData = {
 	]
 };
 
+function getVideoElementRUV() {
+	return document.getElementById('sarpur-player_swf_0');
+}
+
 function initializeBookmarklet() {
-	var player = document.getElementById('sarpur-player_swf_0');
+	var getVideoElement;
+	var VideoOverlay;
+	if (location.hostname.toLowerCase().indexOf('ruv.is') > -1) {
+		getVideoElement = getVideoElementRUV;
+		VideoOverlay = VideoOverlayRUV;
+	}
+
+	var player = getVideoElement();
 	var overlay = new VideoOverlay(player, mockData);
 	overlay.initialize();
 	overlay.show();
