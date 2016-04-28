@@ -12,6 +12,19 @@ function createText() {
 	return text;
 }
 
+function createTimeline() {
+	var timeline = document.createElement('DIV');
+	timeline.style.position = 'absolute';
+	timeline.style.height = '100%';
+	timeline.style.width = '4px';
+	timeline.style.backgroundColor = '#F5A623';
+	timeline.style.left = '0';
+	timeline.style.top = '0';
+
+	return timeline;
+}
+
+
 export default class VideoOverlay {
 	constructor(videoElement, data) {
 		this.videoElement = videoElement;
@@ -50,8 +63,10 @@ export default class VideoOverlay {
 		this.overlay.style.pointerEvents = 'none';
 
 		this.text = createText();
+		this.timeline = createTimeline();
 
 		this.overlay.appendChild(this.text);
+		this.overlay.appendChild(this.timeline);
 	}
 	getVisitorsAtTime() {
 		var lowDataPoint = this.data.visitorsArray[0];
@@ -84,6 +99,8 @@ export default class VideoOverlay {
 		}
 		var visitors = this.getVisitorsAtTime();
 		this.text.innerHTML = visitors + ' visitors';
+
+		this.timeline.style.left = (this.videoElementPos.width * this.currentTimePercentage) + 'px';
 
 		if (this.isRendering) {
 			requestAnimationFrame(this.render.bind(this));
