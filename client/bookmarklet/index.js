@@ -1,4 +1,5 @@
-import VideoOverlayRUV from './VideoOverlay/VideoOverlayRUV';
+import VideoOverlayRUV from './RUV/VideoOverlayRUV';
+import getVideoElementRUV from './RUV/getVideoElementRUV';
 
 import getPositionAndSize from './utils/getPositionAndSize';
 
@@ -12,10 +13,6 @@ const mockData = {
 		[100, 20000]
 	]
 };
-
-function getVideoElementRUV() {
-	return document.getElementById('sarpur-player_swf_0');
-}
 
 function initializeBookmarklet() {
 	var getVideoElement;

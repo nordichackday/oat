@@ -1,4 +1,4 @@
-import VideoOverlay from './VideoOverlay';
+import VideoOverlay from '../VideoOverlay/VideoOverlay';
 
 export default class VideoOverlayRUV extends VideoOverlay {
 	constructor(videoElement, data) {
