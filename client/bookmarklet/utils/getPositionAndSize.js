@@ -1,15 +1,16 @@
-export default function getPositionAndSize(element) {
+export default function getPositionAndSize(originalElement) {
+	var currentElement = originalElement;
 	var top = 0, left = 0;
 	do {
-		top += element.offsetTop || 0;
-		left += element.offsetLeft || 0;
-		element = element.offsetParent;
-	} while(element);
+		top += currentElement.offsetTop || 0;
+		left += currentElement.offsetLeft || 0;
+		currentElement = currentElement.offsetParent;
+	} while(currentElement);
 
 	return {
 		top: top,
 		left: left,
-		width: element.offsetWidth,
-		height: element.offsetHeight
+		width: originalElement.offsetWidth,
+		height: originalElement.offsetHeight
 	};
 };
