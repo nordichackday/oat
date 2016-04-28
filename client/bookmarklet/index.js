@@ -1,15 +1,9 @@
 import getAllElementsWithAttribute from './utils/getAllElementsWithAttribute';
 import getPositionAndSize from './utils/getPositionAndSize';
 
-var oatConfig = window.__OATCONFIG || {
-	plugins: []
-};
+// player._events.time[0].context.on('time', function(a) {console.log(a);});
 
-function loadDependencies(plugins) {
-
-}
-
-function createOverlay(pos) {
+function createOverlay() {
 	var overlay = document.createElement('DIV');
 	overlay.style.position = 'absolute';
 	overlay.style.zIndex = '9999999';
@@ -33,12 +27,11 @@ function createOverlay(pos) {
 	document.body.appendChild(overlay);
 }
 
-function initializeBookmarklet(oatConfig) {
+function initializeBookmarklet() {
 	var player = document.getElementById('sarpur-player_swf_0');
 	console.log(player)
 	var playerPos = getPositionAndSize(player);
 	createOverlay(playerPos);
 }
 
-loadDependencies(oatConfig.plugins);
-initializeBookmarklet(oatConfig);
+initializeBookmarklet();

@@ -1,10 +1,4 @@
 (function() {
-	window.__OATCONFIG = {
-		plugins: [
-			'http://localhost:9000/bookmarklet/dist/VideoOverlay.js'
-		]
-		api: 'http://oat.com/api'
-	};
 	var oatScript=document.createElement('SCRIPT');
 	oatScript.type='text/javascript';
 	oatScript.src='http://localhost:9000/bookmarklet/dist/oat-loader.js';
