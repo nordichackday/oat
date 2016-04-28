@@ -5,8 +5,9 @@ export default class VideoOverlayRUV extends VideoOverlay {
 		super(videoElement, data);
 	}
 	setUpChangeListener() {
-		this.videoElement._events.time[0].context.on('time', (timeObj) => {
-			this.currentTimePercentage = timeObj.position / timeObj.duration;
-		});
+
+		setInterval(() => {
+			this.currentTimePercentage = this.videoElement.currentTime / this.videoElement.duration;
+		}, 50);
 	}
 }

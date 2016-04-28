@@ -6,9 +6,8 @@ function createText() {
 	text.style.fontSize = '40px';
 	text.style.color = '#FFFFFF';
 	text.style.position = 'absolute';
-	text.style.top = '50%';
-	text.style.left = '50%';
-	text.style.transform = 'translateY(-50%) translateX(-50%)';
+	text.style.top = '10px';
+	text.style.right = '20px';
 
 	return text;
 }
@@ -46,6 +45,7 @@ export default class VideoOverlay {
 		this.overlay.style.left = this.videoElementPos.left + 'px';
 		this.overlay.style.width = this.videoElementPos.width + 'px';
 		this.overlay.style.height = this.videoElementPos.height + 'px';
+		this.overlay.style.pointerEvents = 'none';
 
 		this.text = createText();
 

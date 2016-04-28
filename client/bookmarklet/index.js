@@ -1,5 +1,7 @@
 import VideoOverlayRUV from './RUV/VideoOverlayRUV';
 import getVideoElementRUV from './RUV/getVideoElementRUV';
+import VideoOverlaySVT from './SVT/VideoOverlaySVT';
+import getVideoElementSVT from './SVT/getVideoElementSVT';
 
 import getPositionAndSize from './utils/getPositionAndSize';
 
@@ -10,7 +12,7 @@ const mockData = {
 		[40, 35000],
 		[60, 30000],
 		[80, 20000],
-		[100, 20000]
+		[100, 15000]
 	]
 };
 
@@ -20,6 +22,10 @@ function initializeBookmarklet() {
 	if (location.hostname.toLowerCase().indexOf('ruv.is') > -1) {
 		getVideoElement = getVideoElementRUV;
 		VideoOverlay = VideoOverlayRUV;
+	} else if (location.hostname.toLowerCase().indexOf('svt.se') > -1 ||
+						 location.hostname.toLowerCase().indexOf('svtplay.se') > -1) {
+		getVideoElement = getVideoElementSVT;
+		VideoOverlay = VideoOverlaySVT;
 	}
 
 	var player = getVideoElement();
