@@ -51,6 +51,12 @@ class Oat {
 	}
 }
 
-var oat = new Oat(location.hostname.toLowerCase());
-oat.initialize();
+var d3=document.createElement('SCRIPT');
+d3.type='text/javascript';
+d3.src='https://d3js.org/d3.v3.min.js';
+document.getElementsByTagName('head')[0].appendChild(d3);
 
+d3.onload = function () {
+	var oat = new Oat(location.hostname.toLowerCase());
+	oat.initialize();
+};

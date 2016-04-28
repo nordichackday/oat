@@ -1,4 +1,5 @@
 import getPositionAndSize from '../utils/getPositionAndSize';
+import viewerGraph from './viewerGraph';
 
 function createText() {
 	var text = document.createElement('DIV');
@@ -35,7 +36,9 @@ export default class VideoOverlay {
 	}
 	initialize() {
 		this.createOverlayElement();
+		this.createGraphElement();
 		document.body.appendChild(this.overlay);
+		document.body.appendChild(this.viewerGraph);
 
 		if (this.setUpChangeListener) {
 			this.setUpChangeListener();
@@ -50,8 +53,27 @@ export default class VideoOverlay {
 		this.isRendering = false;
 		this.overlay.style.display = 'none';
 	}
+	createGraphElement() {
+		var opts = {
+			height: this.videoElementPos.height,
+			width: this.videoElementPos.width,
+			style: {
+				'position': 'absolute',
+				'z-index': '99999999',
+				'top': this.videoElementPos.top + 'px',
+				'left': this.videoElementPos.left + 'px',
+				'width': this.videoElementPos.width + 'px',
+				'height': this.videoElementPos.height + 'px',
+				'pointer-events': 'none'
+			}
+		};
+		this.viewerGraph = viewerGraph(this.data.visitorsArray, opts);
+		this.viewerGraph.classList.add('viewerGraph');
+	}
+
 	createOverlayElement() {
 		this.overlay = document.createElement('DIV');
+		this.overlay.className = 'videoOverlay';
 		this.overlay.style.display = 'none';
 		this.overlay.style.position = 'absolute';
 		this.overlay.style.zIndex = '9999999';
