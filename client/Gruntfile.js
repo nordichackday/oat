@@ -12,8 +12,16 @@ module.exports = function(grunt) {
           'bookmarklet/dist/oat-loader.js': 'bookmarklet/index.js'
         }
       }
+    },
+    connect: {
+      server: {
+        options: {
+          port: 9000,
+          keepalive: true
+        }
+      }
     }
   });
 
-  grunt.registerTask('default', ['babel']);
+  grunt.registerTask('default', ['babel', 'connect']);
 };
