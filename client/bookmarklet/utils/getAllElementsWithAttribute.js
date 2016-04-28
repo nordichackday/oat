@@ -1,4 +1,4 @@
-function getAllElementsWithAttribute(attribute) {
+export default function getAllElementsWithAttribute(attribute) {
 	var matchingElements = [];
 	var allElements = document.getElementsByTagName('*');
 	for (var i = 0, n = allElements.length; i < n; i++) {

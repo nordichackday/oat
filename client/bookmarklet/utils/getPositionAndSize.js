@@ -1,4 +1,4 @@
-var getPositionAndSize = function(element) {
+export default function getPositionAndSize(element) {
 	var top = 0, left = 0;
 	do {
 		top += element.offsetTop || 0;
