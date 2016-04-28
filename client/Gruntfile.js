@@ -20,15 +20,20 @@ module.exports = function(grunt) {
         }
       }
     },
+    watch: {
+      scripts: {
+        files: ["bookmarklet/**/*.js", '!**/dist/**/*.js'],
+        tasks: ["browserify"]
+      }
+    },
     connect: {
       server: {
         options: {
-          port: 9000,
-          keepalive: true
+          port: 9000
         }
       }
     }
   });
 
-  grunt.registerTask('default', ['browserify', 'connect']);
+  grunt.registerTask('default', ['browserify', 'connect', 'watch']);
 };
