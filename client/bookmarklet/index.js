@@ -24,8 +24,8 @@ function initializeBookmarklet() {
 	if (location.hostname.toLowerCase().indexOf('ruv.is') > -1) {
 		getVideoElement = getVideoElementRUV;
 		VideoOverlay = VideoOverlayRUV;
-	} else {//if (location.hostname.toLowerCase().indexOf('svt.se') > -1 ||
-					//	 location.hostname.toLowerCase().indexOf('svtplay.se') > -1) {
+	} else if (location.hostname.toLowerCase().indexOf('svt.se') > -1 ||
+						 location.hostname.toLowerCase().indexOf('svtplay.se') > -1) {
 		getVideoElement = getVideoElementSVT;
 		VideoOverlay = StandardVideoOverlay;
 	}
