@@ -24,8 +24,12 @@ class Oat {
 	constructor(host) {
 		this.setupForHost(host);
 		var player = this.getVideoElement();
-		this.videoOverlay = new this.VideoOverlay(player, mockData);
-		this.popup = new Popup(this.videoOverlay);
+		if (player) {
+			this.videoOverlay = new this.VideoOverlay(player, mockData);
+			this.popup = new Popup(this.videoOverlay);
+		} else {
+			this.popup = new Popup();
+		}
 	}
 	setupForHost(host) {
 		if (host.indexOf('ruv.is') > -1) {
@@ -38,7 +42,9 @@ class Oat {
 		}
 	}
 	initialize() {
-		this.initializeVideoOverlay();
+		if (this.videoOverlay) {
+			this.initializeVideoOverlay();
+		}
 		this.initializePopup();
 	}
 	initializeVideoOverlay() {

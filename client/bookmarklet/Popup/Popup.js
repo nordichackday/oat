@@ -1,6 +1,10 @@
 export default class Popup {
 	constructor(videoOverlay) {
-		this.videoOverlay = videoOverlay;
+		if (videoOverlay) {
+			this.videoOverlay = videoOverlay;
+		} else {
+			this.videoOverlay = null;
+		}
 	}
 	initialize() {
 		this.createPopupElement();
@@ -15,24 +19,26 @@ export default class Popup {
 		this.popupElement.style.borderRadius = '10px';
 		this.popupElement.style.backgroundColor = '#000000';
 
-		this.videoOverlayController = document.createElement('DIV');
-		this.videoOverlayController.innerHTML = 'Show video overlay';
-		this.videoOverlayController.style.fontSize = '20px';
-		this.videoOverlayController.style.color = '#F5A623';
-		this.videoOverlayController.style.padding = '10px 15px';
-		this.videoOverlayController.style.cursor = 'pointer';
+		if (this.videoOverlay) {
+			this.videoOverlayController = document.createElement('DIV');
+			this.videoOverlayController.innerHTML = 'Show video overlay';
+			this.videoOverlayController.style.fontSize = '20px';
+			this.videoOverlayController.style.color = '#F5A623';
+			this.videoOverlayController.style.padding = '10px 15px';
+			this.videoOverlayController.style.cursor = 'pointer';
 
-		this.videoOverlayController.addEventListener('click', () => {
-			if (this.videoOverlay.visible) {
-				this.videoOverlayController.innerHTML = 'Show video overlay';
-				this.videoOverlay.hide();
-			} else {
-				this.videoOverlayController.innerHTML = 'Hide video overlay';
-				this.videoOverlay.show();
-			}
-		});
+			this.videoOverlayController.addEventListener('click', () => {
+				if (this.videoOverlay.visible) {
+					this.videoOverlayController.innerHTML = 'Show video overlay';
+					this.videoOverlay.hide();
+				} else {
+					this.videoOverlayController.innerHTML = 'Hide video overlay';
+					this.videoOverlay.show();
+				}
+			});
+			this.popupElement.appendChild(this.videoOverlayController);
+		}
 
-		this.popupElement.appendChild(this.videoOverlayController);
 		document.body.appendChild(this.popupElement);
 	}
 	show() {
