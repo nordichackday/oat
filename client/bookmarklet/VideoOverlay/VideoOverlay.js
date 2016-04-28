@@ -75,9 +75,12 @@ export default class VideoOverlay {
 		var visitors = lowDataPoint[1] - (diff*relativePercentage);
 		return Math.round(visitors);
 	}
+	updateCurrentTimePercentage() {
+		this.currentTimePercentage = this.videoElement.currentTime / this.videoElement.duration;
+	}
 	render() {
 		if (!this.setUpChangeListener) {
-			this.currentTimePercentage = this.videoElement.currentTime / this.videoElement.duration;
+			this.updateCurrentTimePercentage();
 		}
 		var visitors = this.getVisitorsAtTime();
 		this.text.innerHTML = visitors + ' visitors';
