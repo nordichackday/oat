@@ -24,7 +24,9 @@ export default class VideoOverlay {
 		this.createOverlayElement();
 		document.body.appendChild(this.overlay);
 
-		this.setUpChangeListener();
+		if (this.setUpChangeListener) {
+			this.setUpChangeListener();
+		}
 	}
 	show() {
 		this.isRendering = true;
@@ -74,6 +76,9 @@ export default class VideoOverlay {
 		return Math.round(visitors);
 	}
 	render() {
+		if (!this.setUpChangeListener) {
+			this.currentTimePercentage = this.videoElement.currentTime / this.videoElement.duration;
+		}
 		var visitors = this.getVisitorsAtTime();
 		this.text.innerHTML = visitors + ' visitors';
 
