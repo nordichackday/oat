@@ -14,18 +14,28 @@ function createText() {
 }
 
 export default class VideoOverlay {
-	constructor(videoElement) {
+	constructor(videoElement, data) {
 		this.videoElement = videoElement;
 		this.videoElementPos = getPositionAndSize(videoElement);
+		this.currentTimePercentage = 0;
+		this.isRendering = false;
+		this.data = data;
 	}
 	initialize() {
 		this.createOverlayElement();
 		document.body.appendChild(this.overlay);
+
+		this.videoElement._events.time[0].context.on('time', (timeObj) => {
+			this.currentTimePercentage = timeObj.position / timeObj.duration;
+		});
 	}
 	show() {
+		this.isRendering = true;
 		this.overlay.style.display = 'block';
+		this.render();
 	}
 	hide() {
+		this.isRendering = false;
 		this.overlay.style.display = 'none';
 	}
 	createOverlayElement() {
@@ -39,8 +49,38 @@ export default class VideoOverlay {
 		this.overlay.style.width = this.videoElementPos.width + 'px';
 		this.overlay.style.height = this.videoElementPos.height + 'px';
 
-		var text = createText();
+		this.text = createText();
 
-		this.overlay.appendChild(text);
+		this.overlay.appendChild(this.text);
+	}
+	getVisitorsAtTime() {
+		var lowDataPoint = this.data.visitorsArray[0];
+		var highDataPoint = this.data.visitorsArray[this.data.visitorsArray.length-1];
+		var currentPercentage = this.currentTimePercentage*100;
+
+		for (var i = 0, l = this.data.visitorsArray.length; i < l; i += 1) {
+			if (this.data.visitorsArray[i][0] < currentPercentage &&
+					this.data.visitorsArray[i+1][0] > currentPercentage) {
+				lowDataPoint = this.data.visitorsArray[i];
+				highDataPoint = this.data.visitorsArray[i+1];
+			}
+		}
+
+		var normalizedPercentage = currentPercentage - lowDataPoint[0];
+		var normalizedHigh = highDataPoint[0] - lowDataPoint[0];
+
+		var relativePercentage = (normalizedPercentage / normalizedHigh);
+		var diff = lowDataPoint[1] - highDataPoint[1];
+
+		var visitors = lowDataPoint[1] - (diff*relativePercentage);
+		return Math.round(visitors);
+	}
+	render() {
+		var visitors = this.getVisitorsAtTime();
+		this.text.innerHTML = visitors + ' visitors';
+
+		if (this.isRendering) {
+			requestAnimationFrame(this.render.bind(this));
+		}
 	}
 }
