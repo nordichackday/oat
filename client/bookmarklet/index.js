@@ -18,22 +18,30 @@ const mockData = {
 	]
 };
 
-function initializeBookmarklet() {
-	var getVideoElement;
-	var VideoOverlay;
-	if (location.hostname.toLowerCase().indexOf('ruv.is') > -1) {
-		getVideoElement = getVideoElementRUV;
-		VideoOverlay = VideoOverlayRUV;
-	} else if (location.hostname.toLowerCase().indexOf('svt.se') > -1 ||
-						 location.hostname.toLowerCase().indexOf('svtplay.se') > -1) {
-		getVideoElement = getVideoElementSVT;
-		VideoOverlay = StandardVideoOverlay;
+class Oat {
+	constructor() {
+		this.setupForHost(location.hostname.toLowerCase());
 	}
-
-	var player = getVideoElement();
-	var overlay = new VideoOverlay(player, mockData);
-	overlay.initialize();
-	overlay.show();
+	setupForHost(host) {
+		if (host.indexOf('ruv.is') > -1) {
+			this.getVideoElement = getVideoElementRUV;
+			this.VideoOverlay = VideoOverlayRUV;
+		} else if (host.indexOf('svt.se') > -1 ||
+							 host.indexOf('svtplay.se') > -1) {
+			this.getVideoElement = getVideoElementSVT;
+			this.VideoOverlay = StandardVideoOverlay;
+		}
+	}
+	initialize() {
+		this.initializeVideoOverlay();
+	}
+	initializeVideoOverlay() {
+		var player = this.getVideoElement();
+		this.overlay = new this.VideoOverlay(player, mockData);
+		this.overlay.initialize();
+		this.overlay.show();
+	}
 }
 
-initializeBookmarklet();
+var oat = new Oat();
+oat.initialize();
