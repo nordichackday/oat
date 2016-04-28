@@ -18,7 +18,6 @@ function arrayToPoint(array) {
 }
 
 export default function createGraph(data, opts) {
-	console.log(opts);
 	opts = opts || {};
 
 	var width = opts.width || 700;
@@ -40,7 +39,6 @@ export default function createGraph(data, opts) {
 		.attr("xmlns", "http://www.w3.org/2000/svg");
 
 	Object.keys(style).forEach(function (styleRule) {
-		console.log(styleRule, style[styleRule])
 		graph.style(styleRule, style[styleRule]);
 	});
 
