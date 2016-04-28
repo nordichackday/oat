@@ -2,14 +2,21 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
-    babel: {
-      options: {
-        sourceMap: true,
-        presets: ['babel-preset-es2015']
-      },
+    browserify: {
       dist: {
+        options: {
+          transform: [
+            ["babelify", {
+              sourceMap: true,
+              presets: ['babel-preset-es2015']
+            }]
+          ]
+        },
         files: {
-          'bookmarklet/dist/oat-loader.js': 'bookmarklet/index.js'
+          // if the source file has an extension of es6 then
+          // we change the name of the source file accordingly.
+          // The result file's extension is always .js
+          "./bookmarklet/dist/oat-loader.js": ["./bookmarklet/index.js"]
         }
       }
     },
@@ -23,5 +30,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['babel', 'connect']);
+  grunt.registerTask('default', ['browserify', 'connect']);
 };

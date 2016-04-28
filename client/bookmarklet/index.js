@@ -1,2 +1,2 @@
-import getAllElementsWithAttribute from './helpers/getAllElementsWithAttribute';
-import getPositionAndSize from './helpers/getPositionAndSize';
+import getAllElementsWithAttribute from './utils/getAllElementsWithAttribute';
+import getPositionAndSize from './utils/getPositionAndSize';
