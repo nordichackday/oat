@@ -43,7 +43,6 @@ class Oat {
 	}
 	initializeVideoOverlay() {
 		this.videoOverlay.initialize();
-		this.videoOverlay.show();
 	}
 	initializePopup() {
 		this.popup.initialize();

@@ -25,7 +25,6 @@ function createTimeline() {
 	return timeline;
 }
 
-
 export default class VideoOverlay {
 	constructor(videoElement, data) {
 		this.videoElement = videoElement;
@@ -33,6 +32,7 @@ export default class VideoOverlay {
 		this.currentTimePercentage = 0;
 		this.isRendering = false;
 		this.data = data;
+		this.visible = false;
 	}
 	initialize() {
 		this.createOverlayElement();
@@ -45,11 +45,13 @@ export default class VideoOverlay {
 		}
 	}
 	show() {
+		this.visible = true;
 		this.isRendering = true;
 		this.overlay.style.display = 'block';
 		this.render();
 	}
 	hide() {
+		this.visible = false;
 		this.isRendering = false;
 		this.overlay.style.display = 'none';
 	}
