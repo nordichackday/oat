@@ -10,7 +10,7 @@ import getVideoElementSVT from './SVT/getVideoElementSVT';
 import getPositionAndSize from './utils/getPositionAndSize';
 
 const mockData = {
-	visitorsArray: [
+	viewersArray: [
 		[0, 50123],
 		[20, 40543],
 		[40, 35000],

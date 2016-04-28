@@ -37,8 +37,8 @@ export default class VideoOverlay {
 	initialize() {
 		this.createOverlayElement();
 		this.createGraphElement();
+		this.overlay.appendChild(this.viewerGraph);
 		document.body.appendChild(this.overlay);
-		document.body.appendChild(this.viewerGraph);
 
 		if (this.setUpChangeListener) {
 			this.setUpChangeListener();
@@ -62,14 +62,14 @@ export default class VideoOverlay {
 			style: {
 				'position': 'absolute',
 				'z-index': '99999999',
-				'top': this.videoElementPos.top + 'px',
-				'left': this.videoElementPos.left + 'px',
+				'top': '0',
+				'left': '0',
 				'width': this.videoElementPos.width + 'px',
 				'height': this.videoElementPos.height + 'px',
 				'pointer-events': 'none'
 			}
 		};
-		this.viewerGraph = viewerGraph(this.data.visitorsArray, opts);
+		this.viewerGraph = viewerGraph(this.data.viewersArray, opts);
 		this.viewerGraph.classList.add('viewerGraph');
 	}
 
@@ -92,16 +92,16 @@ export default class VideoOverlay {
 		this.overlay.appendChild(this.text);
 		this.overlay.appendChild(this.timeline);
 	}
-	getVisitorsAtTime() {
-		var lowDataPoint = this.data.visitorsArray[0];
-		var highDataPoint = this.data.visitorsArray[this.data.visitorsArray.length-1];
+	getViewersAtTime() {
+		var lowDataPoint = this.data.viewersArray[0];
+		var highDataPoint = this.data.viewersArray[this.data.viewersArray.length-1];
 		var currentPercentage = this.currentTimePercentage*100;
 
-		for (var i = 0, l = this.data.visitorsArray.length; i < l; i += 1) {
-			if (this.data.visitorsArray[i][0] < currentPercentage &&
-					this.data.visitorsArray[i+1][0] > currentPercentage) {
-				lowDataPoint = this.data.visitorsArray[i];
-				highDataPoint = this.data.visitorsArray[i+1];
+		for (var i = 0, l = this.data.viewersArray.length; i < l; i += 1) {
+			if (this.data.viewersArray[i][0] < currentPercentage &&
+					this.data.viewersArray[i+1][0] > currentPercentage) {
+				lowDataPoint = this.data.viewersArray[i];
+				highDataPoint = this.data.viewersArray[i+1];
 			}
 		}
 
@@ -111,8 +111,8 @@ export default class VideoOverlay {
 		var relativePercentage = (normalizedPercentage / normalizedHigh);
 		var diff = lowDataPoint[1] - highDataPoint[1];
 
-		var visitors = lowDataPoint[1] - (diff*relativePercentage);
-		return Math.round(visitors);
+		var viewers = lowDataPoint[1] - (diff*relativePercentage);
+		return Math.round(viewers);
 	}
 	updateCurrentTimePercentage() {
 		this.currentTimePercentage = this.videoElement.currentTime / this.videoElement.duration;
@@ -121,8 +121,8 @@ export default class VideoOverlay {
 		if (!this.setUpChangeListener) {
 			this.updateCurrentTimePercentage();
 		}
-		var visitors = this.getVisitorsAtTime();
-		this.text.innerHTML = visitors + ' visitors';
+		var viewers = this.getViewersAtTime();
+		this.text.innerHTML = viewers + ' viewers';
 
 		this.timeline.style.left = (this.videoElementPos.width * this.currentTimePercentage) + 'px';
 
