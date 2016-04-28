@@ -1,3 +1,5 @@
+import Popup from './Popup/Popup';
+
 import StandardVideoOverlay from './VideoOverlay/VideoOverlay';
 
 import VideoOverlayRUV from './RUV/VideoOverlayRUV';
@@ -19,8 +21,11 @@ const mockData = {
 };
 
 class Oat {
-	constructor() {
-		this.setupForHost(location.hostname.toLowerCase());
+	constructor(host) {
+		this.setupForHost(host);
+		var player = this.getVideoElement();
+		this.videoOverlay = new this.VideoOverlay(player, mockData);
+		this.popup = new Popup(this.videoOverlay);
 	}
 	setupForHost(host) {
 		if (host.indexOf('ruv.is') > -1) {
@@ -34,14 +39,18 @@ class Oat {
 	}
 	initialize() {
 		this.initializeVideoOverlay();
+		this.initializePopup();
 	}
 	initializeVideoOverlay() {
-		var player = this.getVideoElement();
-		this.overlay = new this.VideoOverlay(player, mockData);
-		this.overlay.initialize();
-		this.overlay.show();
+		this.videoOverlay.initialize();
+		this.videoOverlay.show();
+	}
+	initializePopup() {
+		this.popup.initialize();
+		this.popup.show();
 	}
 }
 
-var oat = new Oat();
+var oat = new Oat(location.hostname.toLowerCase());
 oat.initialize();
+
