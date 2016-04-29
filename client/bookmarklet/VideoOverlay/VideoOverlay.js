@@ -1,5 +1,5 @@
 import getPositionAndSize from '../utils/getPositionAndSize';
-import viewerGraph from './viewerGraph';
+import viewerGraph, {getMaxDataValue} from './viewerGraph';
 
 function createText() {
 	var text = document.createElement('DIV');
@@ -13,16 +13,33 @@ function createText() {
 	return text;
 }
 
-function createTimeline() {
-	var timeline = document.createElement('DIV');
-	timeline.style.position = 'absolute';
-	timeline.style.height = '100%';
-	timeline.style.width = '4px';
-	timeline.style.backgroundColor = '#F5A623';
-	timeline.style.left = '0';
-	timeline.style.top = '0';
+function createTimebar() {
+	var timeBar = document.createElement('DIV');
+	timeBar.style.position = 'absolute';
+	timeBar.style.height = '100%';
+	var width = 4;
+	timeBar.style.width = width + 'px';
+	timeBar.style.backgroundColor = '#F5A623';
+	timeBar.style.marginLeft = -width / 2 + 'px';
+	timeBar.style.left = '0';
+	timeBar.style.bottom = '0';
+	timeBar.className = 'timeBar';
+	timeBar.style.zIndex = '9999999999999';
 
-	return timeline;
+	var timeball = document.createElement('div');
+	var radius = 12;
+	timeball.style.position = 'absolute';
+	timeball.style.width = radius + 'px';
+	timeball.style.height = radius + 'px';
+	timeball.style.left = -(radius - width)/2 + 'px';
+	timeball.style.top = -radius/2 + 'px';
+	timeball.style.borderRadius = '50%';
+	timeball.style.backgroundColor = '#F5A623';
+	timeball.className = 'timeBall';
+
+	timeBar.appendChild(timeball);
+
+	return timeBar;
 }
 
 export default class VideoOverlay {
@@ -32,6 +49,8 @@ export default class VideoOverlay {
 		this.currentTimePercentage = 0;
 		this.isRendering = false;
 		this.data = data;
+		this.maxDataValue = getMaxDataValue(this.data.viewersArray);
+
 		this.visible = false;
 	}
 	initialize() {
@@ -39,6 +58,7 @@ export default class VideoOverlay {
 		this.createGraphElements();
 		this.overlay.appendChild(this.viewerGraph);
 		this.overlay.appendChild(this.averageViewerGraph);
+
 		document.body.appendChild(this.overlay);
 
 		if (this.setUpChangeListener) {
@@ -85,6 +105,7 @@ export default class VideoOverlay {
 	createOverlayElement() {
 		this.overlay = document.createElement('DIV');
 		this.overlay.className = 'videoOverlay';
+		this.overlay.style.overflow = 'hidden';
 		this.overlay.style.display = 'none';
 		this.overlay.style.position = 'absolute';
 		this.overlay.style.zIndex = '9999998';
@@ -96,10 +117,11 @@ export default class VideoOverlay {
 		this.overlay.style.pointerEvents = 'none';
 
 		this.text = createText();
-		this.timeline = createTimeline();
+		this.timebar = createTimebar();
 
 		this.overlay.appendChild(this.text);
-		this.overlay.appendChild(this.timeline);
+		this.overlay.appendChild(this.timebar);
+
 	}
 	getViewersAtTime() {
 		var lowDataPoint = this.data.viewersArray[0];
@@ -133,7 +155,8 @@ export default class VideoOverlay {
 		var viewers = this.getViewersAtTime();
 		this.text.innerHTML = viewers + ' viewers';
  		var progressInPx = (this.videoElementPos.width * this.currentTimePercentage) + 'px';
-		this.timeline.style.left = progressInPx;
+		this.timebar.style.left = progressInPx;
+		this.timebar.style.height = this.videoElementPos.height * (viewers / this.maxDataValue) + 'px';
 		this.viewerGraph.style.width = progressInPx;
 		this.averageViewerGraph.style.width = progressInPx;
 

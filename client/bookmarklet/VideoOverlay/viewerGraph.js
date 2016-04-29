@@ -1,4 +1,4 @@
-function getMaxDataValue(data) {
+export function getMaxDataValue(data) {
 	return data.reduce(function (acc, curr) {
 		var currY = curr[1];
 		if (currY > acc) {
