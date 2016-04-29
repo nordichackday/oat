@@ -26,6 +26,8 @@ export default function createGraph(data, opts) {
 	margin.top = margin.top || 0;
 	margin.bottom = margin.bottom || 0;
 	var style = opts.style || {};
+	var lineColor = opts.lineColor || '#979797';
+	var pointColor = opts.pointColor || '#D8D8D8';
 
 
 	var graph = d3.select(document.createElement('div'))
@@ -39,6 +41,10 @@ export default function createGraph(data, opts) {
 	Object.keys(style).forEach(function (styleRule) {
 		graph.style(styleRule, style[styleRule]);
 	});
+
+	if(!data) {
+		return graph.node();
+	}
 
 	var dataPoints = data.map(arrayToPoint);
 
@@ -56,7 +62,7 @@ export default function createGraph(data, opts) {
 
 	graph.append("path")
 		.attr("d", line(dataPoints))
-		.attr("stroke", "#979797")
+		.attr("stroke", lineColor)
 		.attr("stroke-width", "3")
 		.attr("fill", "transparent");
 
@@ -68,8 +74,8 @@ export default function createGraph(data, opts) {
 		.attr("cx", xMap)
 		.attr("cy", yMap)
 		.attr("stroke-width", "2")
-		.attr('stroke', '#D8D8D8')
-		.attr('fill', '#D8D8D8');
+		.attr('stroke', pointColor)
+		.attr('fill', pointColor);
 
 	return graph.node();
 

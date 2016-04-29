@@ -36,8 +36,9 @@ export default class VideoOverlay {
 	}
 	initialize() {
 		this.createOverlayElement();
-		this.createGraphElement();
+		this.createGraphElements();
 		this.overlay.appendChild(this.viewerGraph);
+		this.overlay.appendChild(this.averageViewerGraph);
 		document.body.appendChild(this.overlay);
 
 		if (this.setUpChangeListener) {
@@ -55,8 +56,8 @@ export default class VideoOverlay {
 		this.isRendering = false;
 		this.overlay.style.display = 'none';
 	}
-	createGraphElement() {
-		var opts = {
+	createGraphElements() {
+		var settings = {
 			height: this.videoElementPos.height,
 			width: this.videoElementPos.width,
 			style: {
@@ -69,8 +70,15 @@ export default class VideoOverlay {
 				'pointer-events': 'none'
 			}
 		};
-		this.viewerGraph = viewerGraph(this.data.viewersArray, opts);
+		this.viewerGraph = viewerGraph(this.data.viewersArray, settings);
 		this.viewerGraph.classList.add('viewerGraph');
+
+		// settings.lineColor = 'steelblue';
+		settings.pointColor = 'transparent';
+		settings.style['stroke-dasharray'] = '6';
+		settings.style.opacity = '0.6';
+		this.averageViewerGraph = viewerGraph(this.data.averageViewersArray, settings);
+		this.averageViewerGraph.classList.add('averageViewerGraph');
 	}
 
 	createOverlayElement() {
