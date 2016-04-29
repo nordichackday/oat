@@ -10,10 +10,18 @@ import getVideoElementSVT from './SVT/getVideoElementSVT';
 import getPositionAndSize from './utils/getPositionAndSize';
 import generateMockViewerData from './utils/generateMockViewerData';
 
-
 const mockData = {
 	viewersArray: generateMockViewerData({seed: location.href}),
 	averageViewersArray : generateMockViewerData({seed: location.host})
+};
+
+const pageViewMock = {
+	sessions: { label: 'Sessions', value: '7155' },
+	users: { label: 'Users', value: '12211' },
+	pageviews: { label: 'Pageviews', value: '18394' },
+	pageViewsPerSession: { label: 'Pageviews Per Session', value: '2.57' },
+	avgSessionDuration: { label: 'Avg Session', value: '829s' },
+	bounceRate: { label: 'Bounce Rate', value: '12.13%' }
 };
 
 class Oat {
@@ -22,7 +30,7 @@ class Oat {
 		var player = this.getVideoElement();
 		if (player) {
 			this.videoOverlay = new this.VideoOverlay(player, mockData);
-			this.popup = new Popup(this.videoOverlay);
+			this.popup = new Popup(this.videoOverlay, pageViewMock);
 		} else {
 			this.popup = new Popup();
 		}

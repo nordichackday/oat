@@ -86,7 +86,7 @@ export default class VideoOverlay {
 		this.overlay.className = 'videoOverlay';
 		this.overlay.style.display = 'none';
 		this.overlay.style.position = 'absolute';
-		this.overlay.style.zIndex = '9999999';
+		this.overlay.style.zIndex = '9999998';
 		this.overlay.style.backgroundColor = 'rgba(0,0,0,0.7)';
 		this.overlay.style.top = this.videoElementPos.top + 'px';
 		this.overlay.style.left = this.videoElementPos.left + 'px';
