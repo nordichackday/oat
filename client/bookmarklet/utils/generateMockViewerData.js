@@ -1,6 +1,6 @@
 import seedrandom from 'seedrandom';
 
-export default function generateMockData(numberOfItems, startValue, endValue, seed) {
+export default function generateMockViewerData({numberOfItems, startValue, endValue, seed}) {
 	var data = [];
 	var rng;
 	seed = seed || location.href;
@@ -26,5 +26,5 @@ export default function generateMockData(numberOfItems, startValue, endValue, se
 
 	 // console.table(data);
 
-	return {viewersArray: data};
+	return data;
 }

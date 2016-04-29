@@ -8,10 +8,13 @@ import getVideoElementRUV from './RUV/getVideoElementRUV';
 import getVideoElementSVT from './SVT/getVideoElementSVT';
 
 import getPositionAndSize from './utils/getPositionAndSize';
-import generateMockData from './utils/generateMockData';
+import generateMockViewerData from './utils/generateMockViewerData';
 
 
-const mockData = generateMockData();
+const mockData = {
+	viewersArray: generateMockViewerData({seed: location.href}),
+	averageViewersArray : generateMockViewerData({seed: location.host})
+};
 
 class Oat {
 	constructor(host) {
