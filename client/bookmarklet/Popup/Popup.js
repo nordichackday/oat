@@ -37,6 +37,8 @@ export default class Popup {
 		voc.style.borderRadius = '10px';
 		voc.style.backgroundColor = '#000000';
 		voc.style.border = 'solid 1px #979797';
+		voc.style.position = 'relative';
+		voc.style.top = '-10px';
 
 		voc.addEventListener('click', () => {
 			if (this.videoOverlay.visible) {
@@ -58,6 +60,7 @@ export default class Popup {
 		pvpContainer.style.backgroundColor = '#000000';
 		pvpContainer.style.border = 'solid 1px #979797';
 		pvpContainer.style.height = '80px';
+		pvpContainer.style.marginBottom = '30px';
 
 		var span1 = this.createPageViewPopupSpan(this.pageViewData.sessions, this.pageViewData.users);
 		var span2 = this.createPageViewPopupSpan(this.pageViewData.pageviews, this.pageViewData.pageViewsPerSession);
