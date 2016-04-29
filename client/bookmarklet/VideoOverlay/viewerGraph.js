@@ -1,5 +1,3 @@
-// import d3 from 'd3';
-
 function getMaxDataValue(data) {
 	return data.reduce(function (acc, curr) {
 		var currY = curr[1];
