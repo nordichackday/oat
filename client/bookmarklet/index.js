@@ -10,6 +10,8 @@ import getVideoElementSVT from './SVT/getVideoElementSVT';
 import getPositionAndSize from './utils/getPositionAndSize';
 import generateMockViewerData from './utils/generateMockViewerData';
 
+import getPageViewDataFromAPI from './utils/getPageViewDataFromAPI';
+
 const mockData = {
 	viewersArray: generateMockViewerData({seed: location.href}),
 	averageViewersArray : generateMockViewerData({seed: location.host})
@@ -25,18 +27,24 @@ const pageViewMock = {
 };
 
 class Oat {
-	constructor(host) {
+	constructor(host, apiUrl) {
+		this.apiUrl = apiUrl || '';
 		this.setupForHost(host);
 		var player = this.getVideoElement();
 		if (player) {
 			this.videoOverlay = new this.VideoOverlay(player, mockData);
-			this.popup = new Popup(this.videoOverlay, pageViewMock);
+			this.popup = new Popup(this.videoOverlay, this.pageViewData);
 		} else {
 			this.popup = new Popup();
 		}
 	}
 	setupForHost(host) {
 		if (host.indexOf('ruv.is') > -1) {
+
+			if (this.apiUrl) {
+				this.pageViewData = getPageViewDataFromAPI(this.apiUrl);
+			}
+
 			this.getVideoElement = getVideoElementRUV;
 			this.VideoOverlay = VideoOverlayRUV;
 		} else if (host.indexOf('svt.se') > -1 ||
@@ -65,7 +73,7 @@ d3.type='text/javascript';
 d3.src='https://d3js.org/d3.v3.min.js';
 document.getElementsByTagName('head')[0].appendChild(d3);
 
-d3.onload = function () {
-	var oat = new Oat(location.hostname.toLowerCase());
+d3.onload = function() {
+	var oat = new Oat(location.hostname.toLowerCase(), window.OATAPI);
 	oat.initialize();
 };
