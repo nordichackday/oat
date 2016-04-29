@@ -67,7 +67,8 @@ export default class VideoOverlay {
 				'left': '0',
 				'width': this.videoElementPos.width + 'px',
 				'height': this.videoElementPos.height + 'px',
-				'pointer-events': 'none'
+				'pointer-events': 'none',
+				'overflow': 'hidden'
 			}
 		};
 		this.viewerGraph = viewerGraph(this.data.viewersArray, settings);
@@ -131,8 +132,11 @@ export default class VideoOverlay {
 		}
 		var viewers = this.getViewersAtTime();
 		this.text.innerHTML = viewers + ' viewers';
+ 		var progressInPx = (this.videoElementPos.width * this.currentTimePercentage) + 'px';
+		this.timeline.style.left = progressInPx;
+		this.viewerGraph.style.width = progressInPx;
+		this.averageViewerGraph.style.width = progressInPx;
 
-		this.timeline.style.left = (this.videoElementPos.width * this.currentTimePercentage) + 'px';
 
 		if (this.isRendering) {
 			requestAnimationFrame(this.render.bind(this));

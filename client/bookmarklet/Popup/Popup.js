@@ -7,6 +7,27 @@ export default class Popup {
 		this.createPopupElement();
 		this.show();
 	}
+	createControllerElement(text) {
+		var el = document.createElement('DIV');
+		el.innerHTML = text;
+		el.style.fontSize = '20px';
+		el.style.color = '#F5A623';
+		el.style.padding = '10px 15px';
+		el.style.cursor = 'pointer';
+		el.style.borderRadius = '10px';
+		el.style.backgroundColor = '#000000';
+		el.style.border = 'solid 1px #979797';
+		el.style.position = 'relative';
+		el.style.top = '-10px';
+		el.style.display = 'inline-block';
+		el.style.marginRight = '15px';
+
+		el.show = () => {el.style.display = 'inline-block';};
+		el.hide = () => {el.style.display = 'none';};
+
+		return el;
+	}
+
 	createPopupElement() {
 		this.popupElement = document.createElement('DIV');
 		this.popupElement.style.display = 'none';
@@ -21,36 +42,51 @@ export default class Popup {
 		}
 
 		if (this.videoOverlay) {
-			this.videoOverlayController = this.createVideoOverlayController();
+			this.videoOverlayController = this.createControllerElement('Show video overlay');
+
+			this.videoOverlayController.addEventListener('click', () => {
+				if (this.videoOverlay.visible) {
+					this.videoOverlayController.innerHTML = 'Show video overlay';
+					this.videoOverlay.hide();
+					this.viewerGraphsController && this.viewerGraphsController.hide();
+				} else {
+					this.videoOverlayController.innerHTML = 'Hide video overlay';
+					this.videoOverlay.show();
+					this.viewerGraphsController && this.viewerGraphsController.show();
+				}
+			});
 			this.popupElement.appendChild(this.videoOverlayController);
+		}
+
+		if(this.videoOverlay && (this.videoOverlay.viewerGraph || this.videoOverlay.viewerGraph)) {
+			let overflow = 'hidden';
+			this.viewerGraphsController = this.createControllerElement('Show full graph');
+
+			this.viewerGraphsController.addEventListener('click', () => {
+				if (overflow === 'hidden') {
+					this.viewerGraphsController.innerHTML = 'Show full graph';
+					overflow = '';
+				} else {
+					this.viewerGraphsController.innerHTML = 'Show current graph';
+					overflow = 'hidden';
+				}
+
+				if(this.videoOverlay.viewerGraph) {
+					this.videoOverlay.viewerGraph.style.overflow = overflow;
+				}
+				if(this.videoOverlay.averageViewerGraph) {
+					this.videoOverlay.averageViewerGraph.style.overflow = overflow;
+				}
+			});
+
+			this.viewerGraphsController.hide();
+			this.popupElement.appendChild(this.viewerGraphsController);
+
 		}
 
 		document.body.appendChild(this.popupElement);
 	}
-	createVideoOverlayController() {
-		var voc = document.createElement('SPAN');
-		voc.innerHTML = 'Show video overlay';
-		voc.style.fontSize = '20px';
-		voc.style.color = '#F5A623';
-		voc.style.padding = '10px 15px';
-		voc.style.cursor = 'pointer';
-		voc.style.borderRadius = '10px';
-		voc.style.backgroundColor = '#000000';
-		voc.style.border = 'solid 1px #979797';
-		voc.style.position = 'relative';
-		voc.style.top = '-10px';
 
-		voc.addEventListener('click', () => {
-			if (this.videoOverlay.visible) {
-				this.videoOverlayController.innerHTML = 'Show video overlay';
-				this.videoOverlay.hide();
-			} else {
-				this.videoOverlayController.innerHTML = 'Hide video overlay';
-				this.videoOverlay.show();
-			}
-		});
-		return voc;
-	}
 	createPageViewPopup() {
 		var pvpContainer = document.createElement('DIV');
 		pvpContainer.style.fontSize = '20px';

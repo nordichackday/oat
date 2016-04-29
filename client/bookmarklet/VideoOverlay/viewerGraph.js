@@ -29,18 +29,23 @@ export default function createGraph(data, opts) {
 	var lineColor = opts.lineColor || '#979797';
 	var pointColor = opts.pointColor || '#D8D8D8';
 
-
-	var graph = d3.select(document.createElement('div'))
+var container = document.createElement('div');
+	var graph = d3.select(container)
 		.append("svg")
-		.remove()
+		// .remove()
 		.attr("width", width)
 		.attr("height", height)
 		.attr("class", "viewerGraph")
 		.attr("xmlns", "http://www.w3.org/2000/svg");
 
+	graph.style('position', 'absolute');
+  var containerStyle = '';
 	Object.keys(style).forEach(function (styleRule) {
-		graph.style(styleRule, style[styleRule]);
+		// graph.style(styleRule, style[styleRule]);
+		containerStyle += styleRule + ": " + style[styleRule] + ';';
 	});
+
+	container.style = containerStyle;
 
 	if(!data) {
 		return graph.node();
@@ -77,6 +82,6 @@ export default function createGraph(data, opts) {
 		.attr('stroke', pointColor)
 		.attr('fill', pointColor);
 
-	return graph.node();
+	return container;
 
 }
