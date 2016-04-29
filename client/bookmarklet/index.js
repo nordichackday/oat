@@ -35,7 +35,7 @@ class Oat {
 			this.videoOverlay = new this.VideoOverlay(player, mockData);
 			this.popup = new Popup(this.videoOverlay, this.pageViewData);
 		} else {
-			this.popup = new Popup();
+			this.popup = new Popup(null, this.pageViewData);
 		}
 	}
 	setupForHost(host) {
